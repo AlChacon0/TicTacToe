@@ -92,11 +92,12 @@ while jugando:
     try:
         filaCasilla = int(casilla[0]) - 1
         colCasilla = int(casilla[2]) - 1
+        tablero[filaCasilla][colCasilla] 
     except:
-        print('Error: elija fila y columna ej. 1,2')
-        error = True
-    
-    if not error:
+        print('Posicion invalida: elija fila y columna ej. 1,2')
+        printTablero(True)
+        print('')
+    else:
         if tablero[filaCasilla][colCasilla] == ' ':
             tablero[filaCasilla][colCasilla] = jugadores[jugador]
             print("")
@@ -115,8 +116,3 @@ while jugando:
                 jugador = 0
         else:
             print("Casilla ocupada")
-        
-    else:
-        error = False
-        printTablero(True)
-        print('')

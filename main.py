@@ -1,9 +1,16 @@
-#Crear tablero de juego
 tablero = [
     [' ', ' ', ' '],
     [' ', ' ', ' '],
     [' ', ' ', ' ']
 ]
+
+#Crear tablero de juego
+def limpiarTablero():
+    tablero = [
+        [' ', ' ', ' '],
+        [' ', ' ', ' '],
+        [' ', ' ', ' ']
+    ]
 
 #Mostrar tablero
 def printTablero(Mapa):
@@ -75,6 +82,7 @@ error = False
 jugadores = ['X', 'O']
 jugador = 0
 while jugando:
+    limpiarTablero()
     printTablero(False)
     casilla = input('Jugador ' + jugadores[jugador] + ': fila,columna: ')
 
@@ -93,14 +101,14 @@ while jugando:
             tablero[filaCasilla][colCasilla] = jugadores[jugador]
             print("")
             if revisarTablero(): 
-                printTablero()
+                printTablero(False)
                 print('GANADOR JUGADOR '+ jugadores[jugador])
                 print('')
                 respuesta = input('Volver a jugar (Y,N)?')
                 if respuesta == 'Y':
-
-
-                break
+                    limpiarTablero()
+                else:
+                    break
             if jugador == 0:
                 jugador = 1
             else:

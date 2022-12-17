@@ -1,8 +1,8 @@
 #Crear tablero de juego
 tablero = [
-    ['1', '2', '3'],
-    ['4', '5', '6'],
-    ['7', '8', '9']
+    [' ', ' ', ' '],
+    [' ', ' ', ' '],
+    [' ', ' ', ' ']
 ]
 
 #Mostrar tablero
@@ -30,28 +30,35 @@ def revisarTablero():
 
     ganadorXFila = ['X', 'X', 'X']
     ganadorOFila = ['O', 'O', 'O']
+    ganadorXDiagonal1 = tablero[0][0] == 'X' and tablero[1][1] == 'X' and tablero[2][2] == 'X'
+    ganadorXDiagonal2 = tablero[0][2] == 'X' and tablero[1][1] == 'X' and tablero[2][0] == 'X'
+    ganadorODiagonal1 = tablero[0][0] == 'O' and tablero[1][1] == 'O' and tablero[2][2] == 'O'
+    ganadorODiagonal2 = tablero[0][2] == 'O' and tablero[1][1] == 'O' and tablero[2][0] == 'O'
+    ganadorDiagonal = ganadorXDiagonal1 or ganadorODiagonal1 or ganadorXDiagonal2 or ganadorODiagonal2
     tableroGirado = [l.copy() for l in tablero]
     ganador = False
     
+    #Revisar Filas
     for lista in tablero:
-        #Revisar Filas
         if lista == ganadorXFila or lista == ganadorOFila:
             ganador = True
         
-    #Girar Tablero
-    while fila < 3:
-        while columna < 3:
-            tableroGirado[fila][columna] = tablero[columna][2-fila]
-            columna += 1
-        fila += 1
+    #Revisar Columnas
+    tableroGirado = girarTablero()
+    for lista in tableroGirado:
+        if lista == ganadorXFila or lista == ganadorOFila:
+            ganador = True
 
+    #Revisar Diagonales
+    if ganadorDiagonal:
+        ganador = True
     return ganador    
 
 def girarTablero():
     fila = 0
     columna = 0
     tableroGirado =[l.copy() for l in tablero]
-    '''
+    
     while fila < 3:
         while columna < 3:
             tableroGirado[fila][columna] = tablero[columna][2-fila]
@@ -59,25 +66,11 @@ def girarTablero():
             columna += 1
         fila += 1
         columna = 0
-        '''
-    tableroGirado[0][0] = tablero[0][2]
-    tableroGirado[0][1] = tablero[1][2]
-    tableroGirado[0][2] = tablero[2][2]
+    return tableroGirado
 
-    tableroGirado[1][0] = tablero[0][1]
-    tableroGirado[1][1] = tablero[1][1]
-    tableroGirado[1][2] = tablero[2][1]
-
-    tableroGirado[2][0] = tablero[0][0]
-    tableroGirado[2][1] = tablero[1][0]
-    tableroGirado[2][2] = tablero[2][0]
-    for lista in tableroGirado:
-        print(lista)
-
-girarTablero()
 
 #Iniciar juego
-jugando = False
+jugando = True
 error = False
 jugadores = ['X', 'O']
 jugador = 0
@@ -99,7 +92,15 @@ while jugando:
         if tablero[filaCasilla][colCasilla] == ' ':
             tablero[filaCasilla][colCasilla] = jugadores[jugador]
             print("")
-            if revisarTablero(): break
+            if revisarTablero(): 
+                printTablero()
+                print('GANADOR JUGADOR '+ jugadores[jugador])
+                print('')
+                respuesta = input('Volver a jugar (Y,N)?')
+                if respuesta == 'Y':
+
+
+                break
             if jugador == 0:
                 jugador = 1
             else:

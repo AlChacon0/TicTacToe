@@ -1,14 +1,13 @@
 #Crear tablero de juego
 tablero = [
-    [' ', ' ', ' '],
-    [' ', ' ', ' '],
-    [' ', ' ', ' ']
+    ['1', '2', '3'],
+    ['4', '5', '6'],
+    ['7', '8', '9']
 ]
 
 #Mostrar tablero
 def printTablero(Mapa):
-    fila = 0
-    columna = 0
+    fila, columna = 0, 0
     if Mapa:
         print(' 1   2   3')
         print(' |   |   |')
@@ -25,8 +24,60 @@ def printTablero(Mapa):
         fila += 1
         columna = 0
 
+#Revisar si alguien a gando
+def revisarTablero():
+    fila, columna = 0, 0
+
+    ganadorXFila = ['X', 'X', 'X']
+    ganadorOFila = ['O', 'O', 'O']
+    tableroGirado = [l.copy() for l in tablero]
+    ganador = False
+    
+    for lista in tablero:
+        #Revisar Filas
+        if lista == ganadorXFila or lista == ganadorOFila:
+            ganador = True
+        
+    #Girar Tablero
+    while fila < 3:
+        while columna < 3:
+            tableroGirado[fila][columna] = tablero[columna][2-fila]
+            columna += 1
+        fila += 1
+
+    return ganador    
+
+def girarTablero():
+    fila = 0
+    columna = 0
+    tableroGirado =[l.copy() for l in tablero]
+    '''
+    while fila < 3:
+        while columna < 3:
+            tableroGirado[fila][columna] = tablero[columna][2-fila]
+
+            columna += 1
+        fila += 1
+        columna = 0
+        '''
+    tableroGirado[0][0] = tablero[0][2]
+    tableroGirado[0][1] = tablero[1][2]
+    tableroGirado[0][2] = tablero[2][2]
+
+    tableroGirado[1][0] = tablero[0][1]
+    tableroGirado[1][1] = tablero[1][1]
+    tableroGirado[1][2] = tablero[2][1]
+
+    tableroGirado[2][0] = tablero[0][0]
+    tableroGirado[2][1] = tablero[1][0]
+    tableroGirado[2][2] = tablero[2][0]
+    for lista in tableroGirado:
+        print(lista)
+
+girarTablero()
+
 #Iniciar juego
-jugando = True
+jugando = False
 error = False
 jugadores = ['X', 'O']
 jugador = 0
@@ -45,20 +96,19 @@ while jugando:
         error = True
     
     if not error:
-        tablero[filaCasilla][colCasilla] = jugadores[jugador]
-        print("")
-        if jugador == 0:
-            jugador = 1
+        if tablero[filaCasilla][colCasilla] == ' ':
+            tablero[filaCasilla][colCasilla] = jugadores[jugador]
+            print("")
+            if revisarTablero(): break
+            if jugador == 0:
+                jugador = 1
+            else:
+                jugador = 0
         else:
-            jugador = 0
+            print("Casilla ocupada")
         
     else:
         error = False
         printTablero(True)
         print('')
     
-
-'''
-->Evitar uso de una casilla ya marcada
-->Declarar ganador
-'''
